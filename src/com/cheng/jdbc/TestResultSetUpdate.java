@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TestJDBC {
+public class TestResultSetUpdate {
 	public static void main(String[] args) {
 		Connection conn = null;
 		Statement statement = null;
@@ -19,9 +19,11 @@ public class TestJDBC {
 			// second get connection ,this will use proper driver
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
 
-			statement = conn.createStatement();
+			statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			
+			statement.setFetchSize(1);
 
-			resultSet = statement.executeQuery("select * from topcheer_agentrate t");
+			resultSet = statement.executeQuery("select t.studentid, t.studentname, t.age from student t");
 
 			// Executes the given SQL statement, which may be an INSERT, UPDATE,
 			// or DELETE statement or an SQL statement that returns nothing,
@@ -29,15 +31,21 @@ public class TestJDBC {
 			// statement.executeUpdate(sql);
 
 			//this just get data by order
+			/*
 			while (resultSet.next()) {
+			 
 				System.out.println(resultSet.getString(1));
 			}
-			
-			//try get data scroll this will throw exception because have not set ResultSet type to scroll
-			/*
-			resultSet.absolute(2);
-			System.out.println(resultSet.getInt(1));
 			*/
+			
+			//update data throw resultSet
+			resultSet.moveToInsertRow();
+			resultSet.updateInt(1, 11);
+			resultSet.updateString(2, "update");
+			resultSet.updateInt(3, 18);
+			resultSet.insertRow();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -2,15 +2,14 @@ package com.cheng.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TestJDBC {
+public class TestBatch {
 	public static void main(String[] args) {
 		Connection conn = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
+		PreparedStatement statement = null;
 		try {
 			// first load ORACLE DRIVER ,this will automatic register to
 			// DriverManager
@@ -19,25 +18,30 @@ public class TestJDBC {
 			// second get connection ,this will use proper driver
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
 
+			/*
+			
 			statement = conn.createStatement();
 
-			resultSet = statement.executeQuery("select * from topcheer_agentrate t");
-
-			// Executes the given SQL statement, which may be an INSERT, UPDATE,
-			// or DELETE statement or an SQL statement that returns nothing,
-			// such as an SQL DDL statement.
-			// statement.executeUpdate(sql);
-
-			//this just get data by order
-			while (resultSet.next()) {
-				System.out.println(resultSet.getString(1));
-			}
+			statement.addBatch("insert into student values (7,'xiao1',0)");
+			statement.addBatch("insert into student values (8,'xiao2',1)");
+			statement.addBatch("insert into student values (9,'xiao3',2)");
 			
-			//try get data scroll this will throw exception because have not set ResultSet type to scroll
-			/*
-			resultSet.absolute(2);
-			System.out.println(resultSet.getInt(1));
-			*/
+			statement.executeBatch();
+			 */
+			
+			statement = conn.prepareStatement("insert into student values (?,?,?)");
+			
+			statement.setInt(1, 9);
+			statement.setString(2, "xiaoming");
+			statement.setInt(3, 5);
+			statement.addBatch();
+			
+			statement.setInt(1, 19);
+			statement.setString(2, "xiaozhang");
+			statement.setInt(3, 5);
+			statement.addBatch();
+			
+			statement.executeBatch();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
