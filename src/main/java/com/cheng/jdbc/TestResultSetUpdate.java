@@ -14,11 +14,13 @@ public class TestResultSetUpdate {
 		try {
 			// first load ORACLE DRIVER ,this will automatic register to
 			// DriverManager
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 
 			// second get connection ,this will use proper driver
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
-
+			//conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
+			//switch driver to mysql
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
+			
 			statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			
 			statement.setFetchSize(1);

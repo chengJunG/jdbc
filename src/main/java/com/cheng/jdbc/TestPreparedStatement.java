@@ -12,11 +12,12 @@ public class TestPreparedStatement {
 		try {
 			// first load ORACLE DRIVER ,this will automatic register to
 			// DriverManager
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 
 			// second get connection ,this will use proper driver
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
-
+			//conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "root", "123456");
+			//switch driver to mysql
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
 			statement = conn.prepareStatement("insert into student values(?,?,?)");
 
 			statement.setInt(1, 5);
