@@ -1,6 +1,5 @@
 package com.cheng.jdbc;
 
-import java.lang.reflect.Type;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
